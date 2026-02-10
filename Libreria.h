@@ -28,12 +28,23 @@ uint8_t I2C_master_read(uint8_t *buffer, uint8_t ack);
 /////////////////INICIALIZAR ESCLAVO//////////////////////
 void I2C_slave_init(uint8_t address);
 
+/////////////////PANTALLA LCD////////////////////////////
+void initLCD8bits(void);
+void LCD_CMD(uint8_t a);
+void LCD_CHAR(char a);
+void LCD_STRING(char *a);
+void LCD_SHIFT_R(void);
+void LCD_SHIFT_L(void);
+void LCD_SET(uint8_t c, uint8_t f);
+
+/////////////////////COMUNICACION UART////////////////////
 void enviar(char data);
 void cadena();
 void iniciar_USART();
+
+/////////////////ADC///////////////////////////////////////
 void initADC();
 void initCON();
-
 
 
 #endif /* LIBRERIA_H_ */
