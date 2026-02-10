@@ -97,6 +97,21 @@ int main(void)
 		refreshPort2(bufferI2C2);
 		
 		_delay_ms(500);
+
+		LCD_SET(0,2);
+		LCD_STRING(bufferI2C);
+		_delay_ms(50);
+		cadena("Valor slave 1:");
+		cadena(bufferI2C); 
+		
+		cadena("         ");
+		
+		LCD_SET(0,6);
+		LCD_STRING(bufferI2C2);
+		_delay_ms(50);
+		cadena("Valor slave 2:");
+		cadena(bufferI2C2);
+		cadena("\n");
 		
 }
 }
