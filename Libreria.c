@@ -126,6 +126,74 @@ void initADC(void)
 void initCON(){
 	ADCSRA |= (1 << ADSC);
 }
+void initLCD8bits(void)
+{
+	// Datos
+	DDRD |= 0b11111100;               // PD2–PD7
+	DDRB |= (1<<PORTB0)|(1<<PORTB1);        // D6–D7
+
+	// Control
+	DDRB |= (1<<PORTB2)|(1<<PORTB3);
+
+	_delay_ms(20);
+
+	LCD_CMD(0x38); // 8 bits, 2 líneas
+	_delay_ms(10);
+	LCD_CMD(0x0C); // Display ON
+	_delay_ms(10);
+	LCD_CMD(0x06); // Auto incremento
+	_delay_ms(10);
+	LCD_CMD(0x01); // Clear
+	_delay_ms(10);
+}
+//Funcion para enviar datos
+void LCD_CMD(uint8_t a)
+{
+	PORTB &= ~(1 << PORTB2); // RS = 0
+
+	PORTB |= (1 << PORTB3);
+	_delay_ms(4);
+	PORTB &= ~(1 << PORTB3);
+}
+
+void LCD_CHAR(char a)
+{
+	PORTB |= (1 << PORTB2); // RS = 1
+	PORTB |= (1 << PORTB3);
+	_delay_ms(4);
+	PORTB &= ~(1 << PORTB3);
+}
+
+//Funcion para enviar cadena
+void LCD_STRING(char *a){
+	int i;
+	for(i=0; a[i] !='\0'; i++)
+	LCD_CHAR(a[i]);
+}
+//Desplazamiento hacia la derecha
+void LCD_SHIFT_R(void){
+	LCD_CMD(0x01);
+	LCD_CMD(0x0C);
+}
+void LCD_SHIFT_L(void){
+	LCD_CMD(0x01);
+	LCD_CMD(0x08);
+}
+//Cursor
+void LCD_SET(uint8_t col, uint8_t fila)
+{
+	uint8_t addr;
+
+	if (fila == 1)
+	addr = 0x80 + col;
+	else if (fila == 2)
+	addr = 0xC0 + col;
+	else
+	return;
+
+	LCD_CMD(addr);
+}
+
 void iniciar_USART(unsigned int ubrr) {
 	UBRR0H = (ubrr >> 8);
 	UBRR0L = ubrr;
