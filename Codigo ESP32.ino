@@ -78,10 +78,6 @@ void procesarMensaje(String msg) {
   Luz = msg.substring(lIndex+3, cIndex).toInt();
   Color = msg.substring(cIndex+3).charAt(0);
 
-  Serial.println("----- UART -----");
-  Serial.print("Distancia: "); Serial.println(Distancia);
-  Serial.print("Luz: "); Serial.println(Luz);
-  Serial.print("Color: "); Serial.println(Color);
 }
 
 // ===== Handlers =====
